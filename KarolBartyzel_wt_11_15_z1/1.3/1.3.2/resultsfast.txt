@@ -1,0 +1,223 @@
+optymalization=fast
+test1
+Clocks per second: 1000000
+Creating 1000000 contacts books (list):
+
+	Total time:  	(+0.03) s
+	User time:   	(+0.03) s
+	System time: 	(+0.00) s
+
+Creating 1000000 contacts books (tree):
+
+	Total time:  	(+0.03) s
+	User time:   	(+0.03) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to list:
+
+	Total time:  	(+0.01) s
+	User time:   	(+0.01) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to tree:
+
+	Total time:  	(+0.49) s
+	User time:   	(+0.49) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from list:
+
+	Total time:  	(+0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from tree:
+
+	Total time:  	(+1.45) s
+	User time:   	(+1.45) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.81) s
+	User time:   	(+0.81) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.01) s
+	User time:   	(+0.01) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Treebook with 10000 contacts:
+
+	Total time:  	(+1.94) s
+	User time:   	(+1.94) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Listbook with 10000 contacts:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Deleting listbook with 10000 contacts:
+
+	Total time:  	(+-0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+Deleting treebook with 10000 contacts:
+
+	Total time:  	(+-0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+test2
+Clocks per second: 1000000
+Creating 1000000 contacts books (list):
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Creating 1000000 contacts books (tree):
+
+	Total time:  	(+0.03) s
+	User time:   	(+0.03) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to list:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to tree:
+
+	Total time:  	(+0.32) s
+	User time:   	(+0.32) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from list:
+
+	Total time:  	(+0.01) s
+	User time:   	(+0.01) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from tree:
+
+	Total time:  	(+1.22) s
+	User time:   	(+1.22) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.90) s
+	User time:   	(+0.90) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Treebook with 10000 contacts:
+
+	Total time:  	(+2.12) s
+	User time:   	(+2.12) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Listbook with 10000 contacts:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Deleting listbook with 10000 contacts:
+
+	Total time:  	(+0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+Deleting treebook with 10000 contacts:
+
+	Total time:  	(+0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+test3
+Clocks per second: 1000000
+Creating 1000000 contacts books (list):
+
+	Total time:  	(+0.03) s
+	User time:   	(+0.03) s
+	System time: 	(+0.00) s
+
+Creating 1000000 contacts books (tree):
+
+	Total time:  	(+0.03) s
+	User time:   	(+0.03) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to list:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Adding 10000 contacts to tree:
+
+	Total time:  	(+0.71) s
+	User time:   	(+0.71) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from list:
+
+	Total time:  	(+0.01) s
+	User time:   	(+0.01) s
+	System time: 	(+0.00) s
+
+Deleting 10000 contacts from tree:
+
+	Total time:  	(+1.50) s
+	User time:   	(+1.50) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.88) s
+	User time:   	(+0.88) s
+	System time: 	(+0.00) s
+
+Sorting Listbook with 10000 contacts:
+
+	Total time:  	(+0.02) s
+	User time:   	(+0.02) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Treebook with 10000 contacts:
+
+	Total time:  	(+2.02) s
+	User time:   	(+2.02) s
+	System time: 	(+0.00) s
+
+Finding 10000 contacts in Listbook with 10000 contacts:
+
+	Total time:  	(+0.01) s
+	User time:   	(+0.01) s
+	System time: 	(+0.00) s
+
+Deleting listbook with 10000 contacts:
+
+	Total time:  	(+0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+Deleting treebook with 10000 contacts:
+
+	Total time:  	(+0.00) s
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+

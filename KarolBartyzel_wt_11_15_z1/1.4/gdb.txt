@@ -1,0 +1,6 @@
+Aby zepsuć program w 129 linijce kodu, po zwolneniu pamieci przypisanej do list,
+chciałem odwołać się do składowej jego składowej, co spowodowało seg_fault i
+zrzut pamięci. Aby znaleźć błąd uruchomiłem "gdb staticTest". Wskazal on na błąd
+w mainie z numerem linii. Przy pomocy backtrace i listowania wartości zmiennych,
+zauważyłem , że list wskazuje na NULL, więc odwołanie do niego stworzyło błąd.
+Program zostawiłem w niedziałającej formie, dla demonstracji wykonania ćwiczenia.

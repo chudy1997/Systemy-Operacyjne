@@ -1,0 +1,4 @@
+Wyniki przy różnych opcjach optymalizacji różnią się, jednak bardzo nieznacznie.
+W niektórych przypadkach jedne działają szybciej , w innych drugie.
+Prawdopodobnie przy bardziej rozbudowanym kodzie opcje kompilacji miałyby
+większe znaczenie
