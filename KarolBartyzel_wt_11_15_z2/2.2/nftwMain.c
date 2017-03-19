@@ -37,7 +37,7 @@ int main(int argc,char **argv){
 }
 
 static int display_info(const char *fpath, const struct stat *sb,int tflag, struct FTW *ftwbuf){
-  if(tflag==FTW_F && tflag!=FTW_SL && sb->st_size<maxSize){
+  if(S_ISREG(sb->st_mode) && sb->st_size<maxSize){
     char tmp[80];
     struct tm lt;
     localtime_r(&sb->st_mtime,&lt);
