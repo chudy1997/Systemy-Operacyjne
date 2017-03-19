@@ -1,0 +1,139 @@
+//Komentarz
+//Funkcje biblioteczne i systemowe są porównywalnie szybkie, a różnice między nimi
+//są znikome, więc można ich używać wymiennie
+
+AMMOUNT: 600   SIZE: 4
+Sorting with sys
+	User time:   	(+0.07) s
+	System time: 	(+2.49) s
+
+Sorting with lib
+	User time:   	(+0.10) s
+	System time: 	(+2.22) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.01) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.01) s
+
+AMMOUNT: 1200   SIZE: 4
+Sorting with sys
+	User time:   	(+0.22) s
+	System time: 	(+8.74) s
+
+Sorting with lib
+	User time:   	(+0.40) s
+	System time: 	(+8.58) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+AMMOUNT: 500   SIZE: 512
+Sorting with sys
+	User time:   	(+0.05) s
+	System time: 	(+1.51) s
+
+Sorting with lib
+	User time:   	(+0.07) s
+	System time: 	(+1.52) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.01) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.01) s
+
+AMMOUNT: 1000   SIZE: 512
+Sorting with sys
+	User time:   	(+0.12) s
+	System time: 	(+5.80) s
+
+Sorting with lib
+	User time:   	(+0.50) s
+	System time: 	(+6.37) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+AMMOUNT: 450   SIZE: 4096
+Sorting with sys
+	User time:   	(+0.02) s
+	System time: 	(+1.35) s
+
+Sorting with lib
+	User time:   	(+0.05) s
+	System time: 	(+1.31) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.00) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.01) s
+
+AMMOUNT: 900   SIZE: 4096
+Sorting with sys
+	User time:   	(+0.14) s
+	System time: 	(+5.54) s
+
+Sorting with lib
+	User time:   	(+0.25) s
+	System time: 	(+5.14) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+AMMOUNT: 400   SIZE: 8192
+Sorting with sys
+	User time:   	(+0.03) s
+	System time: 	(+2.02) s
+
+Sorting with lib
+	User time:   	(+0.04) s
+	System time: 	(+1.96) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.02) s
+
+AMMOUNT: 800   SIZE: 8192
+Sorting with sys
+	User time:   	(+0.13) s
+	System time: 	(+8.74) s
+
+Sorting with lib
+	User time:   	(+0.23) s
+	System time: 	(+8.81) s
+
+Shuffling with sys
+	User time:   	(+0.00) s
+	System time: 	(+0.04) s
+
+Shuffling with lib
+	User time:   	(+0.00) s
+	System time: 	(+0.04) s
