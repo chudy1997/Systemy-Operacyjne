@@ -1,0 +1,11 @@
+#mysamplefile=xyz.txt
+#ja=ty
+#mybatchfile=batch.txt
+#mysourcefile=main.c
+#ja
+ls -l
+ls -a
+pwd
+ls ../..
+#PATH=.
+./test
