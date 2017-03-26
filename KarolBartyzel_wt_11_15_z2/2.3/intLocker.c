@@ -193,7 +193,7 @@ void printLocks(int fileHandle){
 }
 
 void unlock(int fileHandle,int byte){
-  struct flock *lock= createLock(F_WRLCK,byte);
+  struct flock *lock= createLock(F_RDLCK,byte);
   if(fcntl(fileHandle, F_GETLK, lock) == -1) {
     printf("Cannot read a flock\n\t\t\t");
   }
@@ -218,7 +218,7 @@ void readCharFromByte(int fileHandle,int byte){
   char* res=malloc(sizeof(char));
   lseek(fileHandle,byte,SEEK_SET);
 
-  struct flock *lock= createLock(F_WRLCK,byte);
+  struct flock *lock= createLock(F_RDLCK,byte);
   if(fcntl(fileHandle, F_GETLK, lock) == -1) {
     printf("Cannot read a flock\n");
   }
@@ -235,7 +235,7 @@ void readCharFromByte(int fileHandle,int byte){
 void setCharInByte(int fileHandle,int byte,char character){
   lseek(fileHandle,byte,SEEK_SET);
 
-  struct flock *lock= createLock(F_RDLCK,byte);
+  struct flock *lock= createLock(F_WRLCK,byte);
   if(fcntl(fileHandle, F_GETLK, lock) == -1) {
     printf("Cannot read a flock\n");
   }
