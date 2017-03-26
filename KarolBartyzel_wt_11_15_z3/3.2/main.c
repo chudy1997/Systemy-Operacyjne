@@ -217,14 +217,15 @@ int serviceTask(char *line,int number,int timeLimit,int memoryLimit){
 
 int startProcess(char **args,int timeLimit,int memoryLimit){
     int i=0;
+    int mb=1048576;
     pid_t child;
     child = fork();
     if(child==0){
       struct rlimit limit;
 
       getrlimit(RLIMIT_AS, &limit);
-      if(limit.rlim_max>=1048576*memoryLimit)limit.rlim_max = 1048576*memoryLimit;
-      limit.rlim_cur=1048576*memoryLimit;
+      if(limit.rlim_max>=mb*memoryLimit)limit.rlim_max = mb*memoryLimit;
+      limit.rlim_cur=mb*memoryLimit;
       setrlimit(RLIMIT_AS, &limit);
       getrlimit(RLIMIT_CPU,&limit);
       if(limit.rlim_max>=timeLimit)limit.rlim_max=timeLimit;
@@ -237,12 +238,13 @@ int startProcess(char **args,int timeLimit,int memoryLimit){
     }
     else {
         int ret;
-        wait(&ret);
-        reportUsageOfResources();
-        if(ret!=0){
-          printf("Program %s terminated with exit code: %d\n",args[0], ret);
-          return -1;
-        }
+        do {
+          wait(&ret);
+          if(ret!=0){
+            printf("Program %s terminated with exit code: %d\n",args[0], ret);
+            return -1;
+          }
+        } while(WIFEXITED(ret)==0);
     }
     return 0;
 }

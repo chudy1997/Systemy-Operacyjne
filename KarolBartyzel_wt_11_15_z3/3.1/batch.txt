@@ -8,4 +8,5 @@ ls -l
 ls -a
 pwd
 ls ../..
+ls /home/karol
 #PATH=.

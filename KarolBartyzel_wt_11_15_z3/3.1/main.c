@@ -210,15 +210,21 @@ int startProcess(char **args){
     int i=0;
     pid_t child;
     child = fork();
-    if(child==0)
-        execvp(args[0], args);
+    if(child==0){
+      puts("\n");
+      for(int i=0;args[i]!=NULL;i++)printf("%s ",args[i]);
+      puts("\n");
+      execvp(args[0], args);
+    }
     else {
         int ret;
-        wait(&ret);
-        if(ret!=0){
-          printf("Program %s terminated with exit code: %d\n",args[0], ret);
-          return -1;
-        }
+        do {
+          wait(&ret);
+          if(ret!=0){
+            printf("Program %s terminated with exit code: %d\n",args[0], ret);
+            return -1;
+          }
+        } while(WIFEXITED(ret)==0);
     }
     return 0;
 }
