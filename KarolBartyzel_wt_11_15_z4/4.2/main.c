@@ -14,11 +14,6 @@ int main(int argc,char **argv){
   signals=malloc(sizeof(int)*N);
   returnValues=malloc(sizeof(int)*N);
   pid_t pid;
-  /*
-  pid=fork();
-  if(pid==0){
-
-  }*/
   for(int i=0;i<=N;i++){
     if(i==N){
       pid=fork();
@@ -85,7 +80,18 @@ void sigrealHandler(int sig,siginfo_t *info,void* par){
   counter2++;
 }
 void sigintHandler(int sig){
-  printf("\n\nSIGINT received...killing all processes\n\n");
+  printf("\nList of results:\n\n");
+  int missing=0;
+  for(int i=0;i<N;i++){
+    if(signals[i]!=0)printf("Signal no. %d -> pid: %d   ret: %d s\n",signals[i],children[i],returnValues[i]);
+    else missing++;
+  }
+
+  free(children);
+  free(allChildren);
+  free(signals);
+  free(returnValues);
+  printf("Number of missed signals: %d\nSIGINT received...killing all processes\n\n",missing);
   for(int i=0;i<N;i++)
     if(kill(allChildren[i],0)==0){
       kill(allChildren[i],SIGINT);
@@ -117,6 +123,10 @@ int parseArgs(int argc,char **argv,int *N,int *M){
   if(*M>*N){
     printf("Argument no. 1 should be bigger than no. 2...\nUsage: ./main 10 20\n\n");
     return -4;
+  }
+  if(*N>100){
+    printf("Too big arguments...\nUsage: ./main 10 20\n\n");
+    return -5;
   }
   return 0;
 }
