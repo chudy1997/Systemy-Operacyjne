@@ -9,3 +9,6 @@ compile: client.c server.c
 run: client server
 	./server &
 	./client
+
+clean:
+	rm client server 

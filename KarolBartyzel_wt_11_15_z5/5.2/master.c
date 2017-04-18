@@ -29,8 +29,8 @@ int main(int argc,char **argv){
   }
 
   if(mkfifo(path,0764)==-1){
-      puts("Fifo error");
-      return -1;
+    unlink(path);
+    mkfifo(path,0764);
   }
 
   if((handle=fopen(path,"r"))==NULL){
@@ -42,7 +42,6 @@ int main(int argc,char **argv){
   while(fscanf(handle,"%lf %lf %d\n",&x,&y,&iters)==3){
     int ix=(int)((x+2)/3*R),iy=(int)((y+1)/2*R);
     if(ix<0)ix++;if(iy<0)iy++;if(ix>=R)ix--;if(iy>=R)iy--;
-    if(ix < 0 || iy < 0 || ix >= R || iy >= R){printf(":( %d %d\n",ix,iy);return -1;}
     T[ix][iy]=iters;
   }
 
