@@ -1,8 +1,9 @@
 #include "header.h"
 
-int client_qid;
+int client_qid,flag=1;
 
 int main (int argc, char **argv) {
+  FILE *batch;
   atexit(handler);
   signal(SIGINT,sigintHandler);
 
@@ -13,7 +14,7 @@ int main (int argc, char **argv) {
   if ((client_queue_key = ftok (KEY_PATHNAME, CLIENTS_KEY_C[getpid()%100])) == -1) { perror ("ftok"); exit (1); }
   if ((client_qid = msgget (client_queue_key, IPC_CREAT | QUEUE_PERMISSIONS)) == -1) { perror ("msgget: client_qid"); exit (1); }
   if ((server_queue_key = ftok (KEY_PATHNAME, SERVER_KEY_C)) == -1) { perror ("ftok"); exit (1); }
-  if ((server_qid = msgget (server_queue_key, QUEUE_PERMISSIONS)) == -1) { perror ("msgget: server_qid"); exit (1); }
+  if ((server_qid = msgget (server_queue_key, QUEUE_PERMISSIONS)) == -1) { raise(SIGINT);}
 
   message.message_text.qid = client_qid;
   message.message_type = 5;
@@ -22,12 +23,12 @@ int main (int argc, char **argv) {
   if (msgsnd (server_qid, &message, sizeof (struct message_text), 0) == -1) { perror ("client: msgsnd"); exit (1); }
   if (msgrcv (client_qid, &return_message, sizeof (struct message_text), 0, 0) == -1) { perror ("client: msgrcv"); exit (1); }
   client_number=atoi(return_message.message_text.buf);
-  printf ("Client: Hello! Follow instructions!\n\n");
 
+  batch=fopen(BATCH_FILE,"r");
   while (1) {
     char tmp[10];
-    printf("Please choose type[1-4]: ");
-    fgets(tmp,10,stdin);
+    if(fgets(tmp,10,batch)==0)continue;
+    if (strcmp(tmp,":q\n")==0 || strcmp(tmp,":Q\n")==0){flag=0;raise(SIGINT);}
     if((validateInteger(tmp))==0){
       perror("Bad value of type\n");
       exit(1);
@@ -37,9 +38,8 @@ int main (int argc, char **argv) {
       exit(1);
     }
     if((message.message_type=atoi(tmp))<=2){
-      printf ("Please type a message: ");
       message.message_text.buf[0]='\0';
-      fgets (message.message_text.buf, 198, stdin);
+      if(fgets (message.message_text.buf, 198, batch)==0)break;
       int length = strlen (message.message_text.buf);
       if (message.message_text.buf [length - 1] == '\n') message.message_text.buf [length - 1] = '\0';
     }
@@ -48,18 +48,19 @@ int main (int argc, char **argv) {
       if (msgrcv (client_qid, &return_message, sizeof (struct message_text), 0, 0) == -1) { perror ("client: msgrcv"); exit (1); }
       printf ("\n%s\n\n", return_message.message_text.buf);
     }
-    else break;
+    else raise(SIGINT);
   }
 }
 
 
 void handler(){
   msgctl (client_qid, IPC_RMID, NULL);
-  printf ("\nWe are finishing\nClient: bye\n\n");
+  if(flag)puts("Server closed\n");
+  printf ("\nWe are finishing\nClient no. %d: bye\n",client_qid);
 }
 void sigintHandler(int sig){
   handler();
-  raise(SIGKILL)>0;
+  raise(SIGKILL);
 }
 int validateInteger(char* s){
   int i;

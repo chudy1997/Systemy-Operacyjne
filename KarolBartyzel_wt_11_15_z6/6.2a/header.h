@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <unistd.h>
 
+
 #define SERVER_QUEUE_NAME "/serverQueue"
 #define QUEUE_PERMISSIONS 0660
 #define MAX_MESSAGES 10

@@ -4,6 +4,7 @@ int validateInteger(char *s);
 mqd_t qd_server, qd_client;
 char client_queue_name[25],out_buffer[MSG_BUFFER_SIZE],token[TOKEN_FORMAT+1],in_buffer [MSG_BUFFER_SIZE];
 struct mq_attr attr;
+int flag=1;
 
 void handler(int sig);
 void closeQueues();
@@ -28,7 +29,7 @@ int main (int argc, char **argv) {
     printf("Please choose type[1-4]{identity,toUpper,time,closeServer} or (:q,:Q) to quit: ");
     tmp[0]=0;
     fgets(tmp,10,stdin);
-    if(strcmp(tmp,":q\n")==0 || strcmp(tmp,":Q\n")==0)break;
+    if(strcmp(tmp,":q\n")==0 || strcmp(tmp,":Q\n")==0){flag=0;raise(SIGINT);}
     if((validateInteger(tmp))==0){perror("Bad value of type\n");exit(1);}
     if(atoi(tmp)<1 || atoi(tmp)>4){perror("Bad value of type\n");exit(1);}
     out_buffer[0]=0;
@@ -45,29 +46,12 @@ int main (int argc, char **argv) {
       if (mq_receive (qd_client, in_buffer, MSG_BUFFER_SIZE, NULL) == -1)
         {perror ("Client: mq_receive"); exit (1);}
 
-        printf ("%s\n", in_buffer);
-        if(strcmp(in_buffer,"Server is closed\n")==0){
-          if (mq_close (qd_client) == -1) {perror ("Client: mq_close");exit (1);}
-          if (mq_unlink (client_queue_name) == -1) {perror ("Client: mq_unlink");exit (1);}
-          printf ("Client: bye\n");
-          exit(0);
-        }
+        printf ("Answer: %s\n", in_buffer);
     }
-    else{
-      closeQueues();
-      printf ("Client: bye\n");
-      exit(0);
-    }
+    else
+      raise(SIGINT);
   }
-
-  out_buffer[0]='5';
-  out_buffer[1]=0;
-  strcat(out_buffer,token);
-  if (mq_send (qd_server, out_buffer, strlen (out_buffer)+1, 0) == -1)
-    {perror ("Client: Not able to send message to server");}
-  closeQueues();
-  printf ("Client: bye\n");
-  exit(0);
+  return 0;
 }
 
 int validateInteger(char* s){
@@ -79,13 +63,9 @@ int validateInteger(char* s){
 }
 
 void handler(int sig){
-  out_buffer[0]='5';
-  out_buffer[1]=0;
-  strcat(out_buffer,token);
-  if (mq_send (qd_server, out_buffer, strlen (out_buffer)+1, 0) == -1)
-    {perror ("Client: Not able to send message to server");}
   closeQueues();
-  printf ("Client: bye\n");
+  if(flag)puts("\nServer is closed");
+  printf ("\nClient no %s: bye\n",token);
   exit(0);
 }
 

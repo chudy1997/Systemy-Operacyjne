@@ -24,7 +24,7 @@ int main (int argc, char **argv) {
     if (msgrcv (server_qid, &message, sizeof (struct message_text), 0, 0) == -1) { perror ("msgrcv"); exit (1); }
     buf[0]='\0';
     client_qid = message.message_text.qid;
-    printf("Message received from queue no. %d\n",client_qid);
+    //printf("Message received from queue no. %d\n",client_qid);
     switch(message.message_type){
       case 1:
         i=0;
@@ -56,7 +56,7 @@ int main (int argc, char **argv) {
       message.message_text.qid = server_qid;
       if (msgsnd (client_qid, &message, sizeof (struct message_text), 0) == -1) { perror ("msgget"); exit (1); }
     }
-    printf("Message sent to queue no. %d\n",client_qid);
+    //printf("Message sent to queue no. %d\n",client_qid);
   }
 }
 
