@@ -10,7 +10,7 @@
 
 #define SHAREDMEMORY "barber.c"
 #define SEMAPHORES "client.c"
-#define MEMORYSIZE 100000
+#define MEMORYSIZE 10000
 #define ID 5
 #define NSEMS 4
 #define SEMFLG IPC_CREAT | 0666

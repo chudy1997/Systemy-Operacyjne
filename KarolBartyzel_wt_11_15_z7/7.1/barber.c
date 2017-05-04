@@ -64,7 +64,7 @@ void handler(int sig){
 	shmdt(sharedAddress);
 	shmctl(sharedID,IPC_RMID,NULL);
 	semctl(semid,0,IPC_RMID,NULL);
-	puts("\nBarber shop is closed, come back tommorrow!\n");
+	puts("\nI'm closing barbershop, come back tommorrow!\n");
 	exit(0);
 }
 int validateInteger(char* s){

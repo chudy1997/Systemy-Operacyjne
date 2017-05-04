@@ -9,6 +9,6 @@ compile: barber.c client.c clientBuilder.c
 run:
 	./barber 5 &
 	./clientBuilder 5 4
-	sleep 10
-	fg
-	kill
+
+clean:
+	rm barber client clientBuilder
