@@ -2,25 +2,13 @@
 
 void handler(int sig);
 int validateInteger(char* s);
+void wait(int sem);
+void send(int sem);
+int* pop();
+
 void *sharedAddress;char *tmp;
 int semid,sharedID,arrayIndex=0,*Queue,*sem,N,*customers;
 struct sembuf op;
-
-void wait(int sem){
-	op.sem_num=sem;op.sem_op=-1;op.sem_flg=0;
-	semop(semid,&op,1);
-}
-void send(int sem){
-	op.sem_num=sem;op.sem_op=1;op.sem_flg=0;
-	semop(semid,&op,1);
-}
-int* pop(){
-	int* tmp=malloc(sizeof(int)*2);
-	tmp[0]=Queue[arrayIndex];
-	tmp[1]=Queue[arrayIndex+1];
-	arrayIndex=(arrayIndex+2)%(2*N);
-	return tmp;
-}
 
 int main(int argc, char **argv){
 	struct timespec actualTime;
@@ -35,7 +23,7 @@ int main(int argc, char **argv){
 	semctl(semid,mutex,SETVAL,1);int i;
 	for(i=1;i<N+4;i++)semctl(semid,i,SETVAL,0);
 	Queue=(int*)(sharedAddress);*(Queue++)=N;customers=Queue++;*customers=0;*(Queue++)=0;
-
+      printf("I'm here\n");
 	while(1){
 		wait(mutex);
 		if(semctl(semid,customer,GETVAL,0)==0){
@@ -73,4 +61,21 @@ int validateInteger(char* s){
     if(s[i]<'0' || s[i]>'9')return 0;
   }
   return 1;
+}
+
+
+void wait(int sem){
+	op.sem_num=sem;op.sem_op=-1;op.sem_flg=0;
+	semop(semid,&op,1);
+}
+void send(int sem){
+	op.sem_num=sem;op.sem_op=1;op.sem_flg=0;
+	semop(semid,&op,1);
+}
+int* pop(){
+	int* tmp=malloc(sizeof(int)*2);
+	tmp[0]=Queue[arrayIndex];
+	tmp[1]=Queue[arrayIndex+1];
+	arrayIndex=(arrayIndex+2)%(2*N);
+	return tmp;
 }

@@ -2,24 +2,14 @@
 
 void handler(int sig);
 int validateInteger(char* s);
+void wait(int sem);
+void send(int sem);
+void push(int *t);
+
 void *sharedAddress;
-int sharedID,i,counter=0,semid,*customers;
+int sharedID,i,counter=0,semid,*customers,N,*arrayIndex,*Queue;
 struct sembuf op;
-int N,*arrayIndex,*Queue;
-void wait(int sem){
-	op.sem_num=sem;op.sem_op=-1;op.sem_flg=0;
-	semop(semid,&op,1);
-}
-void send(int sem){
-	op.sem_num=sem;op.sem_op=1;op.sem_flg=0;
-	semop(semid,&op,1);
-}
-void push(int *t) {
-	int tmp=*arrayIndex;
-	Queue[tmp]=tmp+4;
-	Queue[tmp+1]=getpid();
-	*arrayIndex=(*arrayIndex+2)%(2*N);
-}
+
 int main(int argc, char **argv){
 	struct timespec actualTime;
 	signal(SIGINT,handler);
@@ -81,4 +71,18 @@ int validateInteger(char* s){
     if(s[i]<'0' || s[i]>'9')return 0;
   }
   return 1;
+}
+void wait(int sem){
+	op.sem_num=sem;op.sem_op=-1;op.sem_flg=0;
+	semop(semid,&op,1);
+}
+void send(int sem){
+	op.sem_num=sem;op.sem_op=1;op.sem_flg=0;
+	semop(semid,&op,1);
+}
+void push(int *t) {
+	int tmp=*arrayIndex;
+	Queue[tmp]=tmp+4;
+	Queue[tmp+1]=getpid();
+	*arrayIndex=(*arrayIndex+2)%(2*N);
 }
