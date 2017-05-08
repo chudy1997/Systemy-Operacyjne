@@ -20,7 +20,7 @@ int main(int argc, char **argv){
 	if((sharedAddress=mmap(NULL,MEMORYSIZE,PROT_READ | PROT_WRITE,MAP_SHARED,sharedID,0))==(void*)-1)
 		perror("mmap");
 
-	pidQueue=(int*)(sharedAddress);N=*(pidQueue++);customers=pidQueue++;*customers=0;arrayIndex=pidQueue++;semQueue=pidQueue+N;
+	pidQueue=(int*)(sharedAddress);N=*(pidQueue++);customers=pidQueue++;arrayIndex=pidQueue++;semQueue=pidQueue+N;
 	semArray=malloc(sizeof(sem_t*)*(N+4));
 	char tmp[10];
 	sprintf(tmp,"%s0",SEMNM);
@@ -51,11 +51,12 @@ int main(int argc, char **argv){
 			printf("Client no. %d is taking a seat in waiting room!\ntime: %.6f\n",getpid(),actualTime.tv_sec+actualTime.tv_nsec/1000000000.0);
 		}
 		*customers+=1;
+		int t=*arrayIndex+4;
 		push();
+		*arrayIndex=(*arrayIndex+1)%N;
 		sem_post(semArray[mutex]);
 		sem_post(semArray[customer]);
-		sem_wait(semArray[*arrayIndex+4]);
-		*arrayIndex=(*arrayIndex+1)%N;
+		sem_wait(semArray[t]);
 		sem_post(semArray[customerDone]);
 		sem_wait(semArray[barberDone]);
 		sem_wait(semArray[mutex]);
