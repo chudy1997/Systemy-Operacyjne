@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/syscall.h>
 
 int validateInteger(char* s);
 void *func(void *p);
@@ -94,7 +95,7 @@ void *func(void *p){
 					tmp[1024]='\0';
 					if(strstr(tmp,word)!=NULL){
             finished=1;
-						printf("Thread no. %d has found '%s' in record with id %d\n",i,word,c);
+						printf("Thread no. %d has found '%s' in record with id %d\n",syscall(SYS_gettid),word,c);
           }
 
 				}

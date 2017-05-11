@@ -9,21 +9,16 @@
 
 int validateInteger(char* s);
 void *func(void *p);
-void copy(char* dest,char* source,int c){
-  int i;
-  for(i=0;i<c;i++)
-    dest[i]=source[i];
-}
 typedef struct _thread_data_t {
     int index;
 } thread_data_t;
 
-int counter=0,fileid,fileSize,threadsNo,recordsNo;
+int counter=0,fileid,fileSize,threadsNo,recordsNo,finished=0;
 char *fileName,*word;
 pthread_t *threads;
 
 int main(int argc, char** argv){
-	if(argc!=5){
+	if(argc!=6){
 		perror("Wrong ammount of args");
 		return -1;
 	}
@@ -58,6 +53,19 @@ int main(int argc, char** argv){
 			exit(-1);
 		}
 	}
+  switch(atoi(argv[5])){
+    case 1:
+      raise(SIGUSR1);
+      break;
+    case 2:
+      raise(SIGTERM);
+      break;
+    case 3:
+      raise(SIGKILL);
+    case 4:
+     raise(SIGSTOP);
+     break;
+  }
 	for(i=0;i<threadsNo;i++)
 		pthread_join(threads[i],NULL);
 
@@ -79,30 +87,34 @@ void *func(void *p){
 				perror("read");
 				exit(-1);
 			}
+      if(finished){
+        counter=(counter+1)%threadsNo;
+        continue;
+      }
+
+
 			char tmp[1021];
 			int c;
 			if(readBytes){
 				int j;
 				for(j=0;j<recordsNo;j++){
+          if(finished){
+            counter=(counter+1)%threadsNo;
+            continue;
+          }
 					c=*((int*)(buf+(1024*(i+j))));
 					tmp[0]='\0';
-  				copy(tmp,(char*)(buf+(1024*(i+j))+sizeof(int)),1020);
-					tmp[1020]='\0';
+					strncpy(tmp,(char*)(buf+(1024*(i+j))+sizeof(int)),1024);
+					tmp[1024]='\0';
 					if(strstr(tmp,word)!=NULL){
+            finished=1;
 						printf("Thread no. %d has found '%s' in record with id %d\n",syscall(SYS_gettid),word,c);
-						int k;
-						for(k=0;k<threadsNo;k++){
-							if(k!=index)
-								if(pthread_cancel(threads[k])!=0){
-									perror("cancel");
-								}
-						}
-						pthread_exit(NULL);
-					}
+          }
+
 				}
 			}
-      i+=recordsNo;
-      counter=(counter+1)%threadsNo;
+				counter=(counter+1)%threadsNo;
+			i+=recordsNo;
 		}
 	}
 	pthread_exit(NULL);

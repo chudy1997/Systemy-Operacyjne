@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/syscall.h>
 
 int validateInteger(char* s);
 void *func(void *p);
@@ -61,7 +62,6 @@ int main(int argc, char** argv){
 }
 
 void *func(void *p){
-	// pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
 	thread_data_t *data = (thread_data_t *) p;
 	char buf[2*fileSize];
 	int index=data->index;
@@ -86,7 +86,7 @@ void *func(void *p){
 					strncpy(tmp,(char*)(buf+1024*(i+j)+sizeof(int)),1020);
 					tmp[1024]='\0';
 					if(strstr(tmp,word)!=NULL){
-						printf("Thread no. %d has found '%s' in record with id %d\n",i,word,c);
+						printf("Thread no. %d has found '%s' in record with id %d\n",syscall(SYS_gettid),word,c);
 						finished=1;
 						counter=(counter+1)%threadsNo;
 						pthread_exit(NULL);

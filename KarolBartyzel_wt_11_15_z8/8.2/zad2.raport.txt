@@ -1,0 +1,49 @@
+Zadanie 2a)
+1. Wysłanie sygnału do procesu, gdy żaden wątek nie ma zamaskowanego tego sygnału.
+  -SIGUSR1, SIGTERM, SIGKILL - Zostały wypisane odpowiednio User defined signal 1,
+    terminated, killed, a zadania nie zostały dokończone.
+    gdyż nie została wypisany szukany wyraz, więc wątki zostały zabite razem z procesem.
+  -SIGSTOP - Proces i wątki zostały zatrzymane, po ponownym uruchomieniu program wypisał
+    znaleziony wyraz.
+  -Jak widać, wątki otrzymują wszystkie te same sygnały co proces je tworzący.
+
+2. Wysłanie sygnału do procesu, gdy główny wątek programu ma zamaskowany ten sygnał, a wszystkie pozostałe wątki nie.
+  -SIGUSR1, SIGTERM - Sygnały zostały zablokowane przez proces, więc nie zostały dostarczone do procesu, a więc też
+    do wątków, w związku z czym program wykonał się normalnie.
+  -SIGKILL, SIGSTOP - Sygnały odpowiednio zakończyły i zatrzymały proces oraz jego wątki , gdyż są to 2 sygnały, które
+    nie mogą być zablokowane. Dla tych 2 sygnałów sytuacja jest taka sama jak w operacji numer 1.
+
+3. Wysłanie sygnału do procesu, gdy wszystkie wątki mają zainstalowaną niestandardową procedurę obsługi przerwania,
+  która wypisuje informację o nadejściu tego sygnału oraz PID i TID danego wątku.
+  -SIGUSR1, SIGTERM - Sygnały zostały przechwycone przez jeden z wątków (wątek główny). Sprawdziłem to wypisując numer wątku
+    w main oraz analizując wypisaną informację przez handler. Co więcej inne wątki nie otrzymały tego sygnału, więc mogły dalej
+    pracować i znalazły szukany wyraz.
+  -SIGKILL, SIGSTOP - Sygnały odpowiednio zakończyły i zatrzymały proces oraz jego wątki , gdyż są to 2 sygnały, które
+    nie mogą być przechwytywane. Dla tych 2 sygnałów sytuacja jest taka sama jak w operacji numer 1 i 2.
+  Jak widać sygnały wysyłane za pomocą kill są przechwytywane przez jeden z wątków.
+
+4. Wysłanie sygnału do wątku z zamaskowanym tym sygnałem.
+  Wysłałem sygnał za pomocą pthread_kill do każdego z stworzonych wątków i:
+  -SIGUSR1, SIGTERM - Sygnały zostały zablokowane przez każdy z wątków i program zadziałał normalnie.
+  -SIGKILL, SIGSTOP - Sygnały odpowiednio zakończyły i zatrzymały proces oraz jego wątki , gdyż są to 2 sygnały, które
+    nie mogą być blokowane. Dla tych 2 sygnałów sytuacja jest taka sama jak w operacji numer 1 i 2 i 3.
+  Jak widać zasady blokowania dla wątków są takie same, jak dla procesów.
+
+5. Wysłanie sygnału do wątku, w którym zmieniona jest procedura obsługi sygnału, jak przedstawiono w punkcie 3.
+  Ustawiłem obsługę sygnału na niestandardową i wysłałem sygnał za pomocą pthread_kill do każdego z stworzonych wątków i:
+  -SIGUSR1, SIGTERM - Sygnały zostały przechwycone, została wypisana informacja i program zadziałał normalnie.
+  -SIGKILL, SIGSTOP - Sygnały odpowiednio zakończyły i zatrzymały proces oraz jego wątki , gdyż są to 2 sygnały, które
+    nie mogą być przechwycone. Dla tych 2 sygnałów sytuacja jest taka sama jak w operacji numer 1 i 2 i 3.
+  Jak widać zasady przechwytywania dla wątków są takie same, jak dla procesów.
+
+Wnioski:
+  -SIGKILL i SIGSTOP nie mogą być przechwycone,obsłużone zarówno na poziomie procesu jak i wątku
+  -Pozostałe sygnały mogą być przechwycon obsłużone zarówno na poziomie procesu jak i wątku
+  -Gdy wysyłany jest sygnał funkcją kill, sygnał przechwytywany jest przez jeden z wątków
+
+Zadanie 2b)
+Program został zatrzymany i wszystkie jego procesy zabite. Dzielenie przez zero jest obsługiwane przez nienadpisywalny
+  handler , w związku z czym nie da się go przechwycić i zawsze kończy się błędem. Jedyna drogą jego obsłużenia jest
+  assert na dzielnik, czy jest równy 0.
+
+Komputer testowy to Lenovo Z50 z Intel Core i5. Jądro : Linux version 3.19.0-79-generic System: Ubuntu 15.04 x86_64
