@@ -3,8 +3,7 @@ Zadanie 2a)
   -SIGUSR1, SIGTERM, SIGKILL - Zostały wypisane odpowiednio User defined signal 1,
     terminated, killed, a zadania nie zostały dokończone.
     gdyż nie została wypisany szukany wyraz, więc wątki zostały zabite razem z procesem.
-  -SIGSTOP - Proces i wątki zostały zatrzymane, po ponownym uruchomieniu program wypisał
-    znaleziony wyraz.
+  -SIGSTOP - Proces i wątki zostały zatrzymane, po ponownym uruchomieniu program dokończył swoje działanie.
   -Jak widać, wątki otrzymują wszystkie te same sygnały co proces je tworzący.
 
 2. Wysłanie sygnału do procesu, gdy główny wątek programu ma zamaskowany ten sygnał, a wszystkie pozostałe wątki nie.
@@ -20,7 +19,7 @@ Zadanie 2a)
     pracować i znalazły szukany wyraz.
   -SIGKILL, SIGSTOP - Sygnały odpowiednio zakończyły i zatrzymały proces oraz jego wątki , gdyż są to 2 sygnały, które
     nie mogą być przechwytywane. Dla tych 2 sygnałów sytuacja jest taka sama jak w operacji numer 1 i 2.
-  Jak widać sygnały wysyłane za pomocą kill są przechwytywane przez jeden z wątków.
+  Jak widać sygnały wysyłane za pomocą kill są przechwytywane przez jeden z wątków(główny).
 
 4. Wysłanie sygnału do wątku z zamaskowanym tym sygnałem.
   Wysłałem sygnał za pomocą pthread_kill do każdego z stworzonych wątków i:

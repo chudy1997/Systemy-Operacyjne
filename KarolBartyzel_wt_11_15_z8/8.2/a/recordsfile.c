@@ -4,7 +4,7 @@
 
 int main(){
   srand(time(NULL));
-  int N=7,M=1024,i,j;
+  int N=100,M=1024,i,j;
   const int lettersNo='z'-'a'+'Z'-'A'+3;
 	char letters[lettersNo];
 

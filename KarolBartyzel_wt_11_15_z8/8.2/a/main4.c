@@ -13,7 +13,7 @@ typedef struct _thread_data_t {
     int index;
 } thread_data_t;
 
-int counter=0,fileid,fileSize,threadsNo,recordsNo,finished=0,L;
+int fileid,fileSize,threadsNo,recordsNo,L;
 char *fileName,*word;
 pthread_t *threads;
 
@@ -54,26 +54,6 @@ int main(int argc, char** argv){
 			exit(-1);
 		}
 	}
-  // sigset_t set;
-  // sigemptyset(&set);
-  // sigaddset(&set,SIGUSR1);
-  // sigaddset(&set,SIGTERM);
-  // sigaddset(&set,SIGKILL);
-  // sigaddset(&set,SIGSTOP);
-  // pthread_sigmask(SIG_BLOCK,&set,NULL);
-  // switch(L){
-  //   case 1:
-  //     break;
-  //   case 2:
-  //
-  //     break;
-  //   case 3:
-  //
-  //       break;
-  //   case 4:
-  //
-  //    break;
-  // }
 	for(i=0;i<threadsNo;i++)
 		pthread_join(threads[i],NULL);
 
@@ -85,7 +65,7 @@ int main(int argc, char** argv){
 
 void *func(void *p){
   thread_data_t *data = (thread_data_t *) p;
-  char buf[2*fileSize];
+  char buf[recordsNo*1024];
   int index=data->index;
   sigset_t setIn;
   sigemptyset(&setIn);
@@ -94,7 +74,7 @@ void *func(void *p){
   sigaddset(&setIn,SIGKILL);
   sigaddset(&setIn,SIGSTOP);
   pthread_sigmask(SIG_BLOCK,&setIn,NULL);
-  int readBytes,i;
+  int readBytes;
   switch(L){
     case 1:
       pthread_kill(threads[index],SIGUSR1);
@@ -109,40 +89,23 @@ void *func(void *p){
       pthread_kill(threads[index],SIGSTOP);
       break;
   }
-	for(readBytes=1,i=0;readBytes;){
-		if(counter==index){
-			if((readBytes=read(fileid,buf+(1024*i),recordsNo*1024))<0){
-				perror("read");
-				exit(-1);
+	for(readBytes=1;readBytes;){
+		if((readBytes=read(fileid,buf,recordsNo*1024))<0){
+			perror("read");
+			exit(-1);
+		}
+		char tmp[1021];
+		int c;
+		if(readBytes){
+			int j;
+			for(j=0;j<recordsNo;j++){
+				c=*((int*)(buf+(1024*j)));
+				tmp[0]='\0';
+				strncpy(tmp,(char*)(buf+1024*j+sizeof(int)),1024);
+				tmp[1024]='\0';
+				if(strstr(tmp,word)!=NULL)
+					printf("Thread no. %d has found '%s' in record with id %d\n",syscall(SYS_gettid),word,c);
 			}
-      if(finished){
-        counter=(counter+1)%threadsNo;
-        continue;
-      }
-
-
-			char tmp[1021];
-			int c;
-			if(readBytes){
-				int j;
-				for(j=0;j<recordsNo;j++){
-          if(finished){
-            counter=(counter+1)%threadsNo;
-            continue;
-          }
-					c=*((int*)(buf+(1024*(i+j))));
-					tmp[0]='\0';
-					strncpy(tmp,(char*)(buf+(1024*(i+j))+sizeof(int)),1024);
-					tmp[1024]='\0';
-					if(strstr(tmp,word)!=NULL){
-            finished=1;
-						printf("Thread no. %d has found '%s' in record with id %d\n",syscall(SYS_gettid),word,c);
-          }
-
-				}
-			}
-				counter=(counter+1)%threadsNo;
-			i+=recordsNo;
 		}
 	}
 	pthread_exit(NULL);

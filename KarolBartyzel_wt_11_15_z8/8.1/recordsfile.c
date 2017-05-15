@@ -4,7 +4,7 @@
 
 int main(){
   srand(time(NULL));
-  int N=7,M=1024,i,j;
+  int N=100,M=1024,i,j;
   const int lettersNo='z'-'a'+'Z'-'A'+3;
 	char letters[lettersNo];
 
@@ -25,6 +25,7 @@ int main(){
       tmp[j]=letters[rand()%lettersNo];
     }
     tmp[j]='\n';
+    tmp[j+1]='\0';
     write(filedes,tmp,M-sizeof(int));
     close(filedes);
   }
