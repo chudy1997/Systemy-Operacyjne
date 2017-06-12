@@ -1,8 +1,13 @@
 Game: Ships-battle
+
 Platform: Windows 
+
 Shape: Console 
+
 Version: 0.1
+
 Date: 12.06.2017
+
 Author: Karol Bartyzel 
 
 
